@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+<head>
+<title>Our Funky HTML Page</title>
+</head>
+<body>
+    <form action="." method="POST">
+        {% csrf_token %}
+        <input type="text" name="mobile" readonly value="{{ mobile }}">
+        <input type="number" name="otp" >
+        <input type="submit" value="Check OTP">
+    </form>
+</body>
+</html>

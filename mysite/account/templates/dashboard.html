@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+<head>
+<title>Our Funky HTML Page</title>
+</head>
+<body>
+<h1>
+    {% if user.is_authenticated %}
+
+        <h1>welcom {{ user }} </h1>
+
+    {% else %}
+        <h1> user nist</h1>
+    {% endif %}
+</h1>
+</body>
+</html>

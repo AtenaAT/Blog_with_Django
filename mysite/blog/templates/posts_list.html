@@ -1,0 +1,91 @@
+{% extends 'index.html' %}
+
+
+{% block body %}
+
+
+    
+
+        <p><a href="{% url 'posts_list'   %}" >POSTS</a></p>
+
+        {% if user.is_authenticated %}
+
+        <p>welcom!  <a href="{% url 'profile_detail'   %}" > {{ user.username }}</a>| <a href="{% url 'logout'   %}" >logout</a></p>
+
+
+        {% else %}
+            <p><a href="{% url 'login'   %}" >login</a> or <a href="{% url 'register'   %}" >register</a> </p>
+
+
+        {% endif %}
+
+        <hr><hr><hr>
+
+
+
+
+
+        <form method="GET">
+
+
+            
+                <p> {{my_filter.form}} </p>
+                <br>
+            
+
+            <!-- <p> {{search_form.as_p}} </p> -->
+            <!-- ag natije search umad ino ejra kon  -->
+
+            <button type="submit" >جستجو</button>
+
+        </form>
+
+
+
+
+
+
+
+
+
+
+    {% if post_list %}   
+        <p>پست ( {{ posts_lists.count }} ) </p><p></p>
+
+    {% else %}
+        <p>هیچ پستی پیدا نشد</p>
+
+    {% endif %}
+
+            <hr><hr><hr>
+
+
+    {% if post_list %} 
+
+
+
+            {% for post in post_list %}
+
+                <div >
+                
+                    <h2 >{{ post.title }}</h2>
+
+                    <img src="{{ post.image.url }}" width="300" height="300"> 
+
+                    <p>{{ post.author }} | {{ post.published}} | {{post.status}} </p>
+                    <p>{{post.descripton|slice:":100" }}</p>
+                    <p><a href="{% url 'post_details' post.slug  %}" >More  | {{ post.comments.count }} comments</a></p>
+
+                    <hr>
+                
+                </div>      
+            
+            {% endfor %}
+
+    {% else %}
+
+            <p style="color:deeppink;" > post nadarim  </p>
+
+    {% endif %}
+
+{% endblock body %}
