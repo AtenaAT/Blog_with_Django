@@ -1,16 +1,66 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.shortcuts import render
-from .models import CustomUser
+from django.shortcuts import render, get_object_or_404
+from .models import CustomUser as User
 from . import forms
 from . import make_otp
+from blog.views import posts_list
 
-#______________________________________________________________________________________________________
+
+# ______________________________________________________________________________________________________
+
+# login bedune otp ba mobile:
+
+def custom_login(request):
+    form = forms.loginFrom
+    if request.method == "POST":
+        if "mobile" in request.POST:
+            mobile = request.POST.get('mobile')
+            user = User.objects.get(mobile=mobile)
+            login(request, user)
+            return HttpResponseRedirect(reverse(posts_list))
+
+    return render(request, 'login.html', {'form': form})
+
+
+# ______________________________________________________________________________________________________
+def custom_register(request):
+    if request.method == "POST":
+        form = forms.RegisterFrom(request.POST)
+        if form.is_valid():
+            # user = form.save(commit=False)
+            # user.is_active = False
+            # user.save()
+
+            user = form.save(commit=True)
+            User.objects.create()
+            user.save()
+            form.save()
+            login(request, user)
+            return HttpResponseRedirect(reverse(posts_list))
+    form = forms.RegisterFrom()
+    return render(request, 'register.html', {'form': form})
+
+
+# ______________________________________________________________________________________________________
+def custom_logout(request):
+    logout(request)
+    return render(request, "logout.html")
+
+
+# ______________________________________________________________________________________________________
+
+@login_required
+def profile_detail(request):
+    profile = request.user
+    return render(request, "profile.html", {"profile": profile})
+# ______________________________________________________________________________________________________
 # register kardan va login ba otp
 
 # def register_view(request):
-#     form = forms.RegisterForm
+#     form = forms.LoginFrom
 
 #     if request.method == "POST":
 
@@ -19,11 +69,11 @@ from . import make_otp
 #             if "mobile" in request.POST:
 #                 mobile = request.POST.get('mobile')
 #                 user = CustomUser.objects.get(mobile=mobile)
-#                 # send otp
+#
 #                 otp = make_otp.get_random_otp()
 #                 make_otp.send_otp(mobile, otp)
-#                 # save otp
-#                 # print(otp)
+#
+#                 print(otp)
 #                 user.otp = otp
 #                 user.save()
 #                 # tuye session zakhire beshe
@@ -32,16 +82,14 @@ from . import make_otp
 
 #         except CustomUser.DoesNotExist:
 #             # ag user nabud:
-#             form = forms.RegisterForm(request.POST)
+#             form = forms.LoginFrom(request.POST)
 #             if form.is_valid():
 #                 user = form.save(commit=False)
 #                 # ag user bud hala otp barsh mifrestim
-#                 # send otp
+#
 #                 otp = make_otp.get_random_otp()
 #                 make_otp.send_otp(mobile, otp)
-#                 # make_otp.send_otp_soap(mobile, otp)
-#                 # save otp
-#                 # print(otp)  # vase inke pul nare
+
 #                 user.otp = otp
 #                 user.is_active = False
 #                 user.save()
@@ -49,24 +97,7 @@ from . import make_otp
 #                 return HttpResponseRedirect(reverse('verify'))
 
 #     return render(request, 'register.html', {'form': form})
-#______________________________________________________________________________________________________
-
-def dashboard(request):
-    return render(request, 'dashboard.html')
-
-#______________________________________________________________________________________________________
-#login bedune otp ba mobile:
-
-def mobile_login(request):
-    if request.method == "POST":
-        if "mobile" in request.POST:
-            mobile = request.POST.get('mobile')
-            user = CustomUser.objects.get(mobile=mobile)
-            login(request, user)
-            return HttpResponseRedirect(reverse('dashboard'))
-
-    return render(request, 'mobile_login.html')
-#______________________________________________________________________________________________________
+# ______________________________________________________________________________________________________
 # verify kardan user ba otp:
 
 # def verify(request):
@@ -81,9 +112,10 @@ def mobile_login(request):
 #             user.is_active = True
 #             user.save()
 #             login(request, user)
-#             return HttpResponseRedirect(reverse('dashboard'))
+#             return HttpResponseRedirect(reverse(posts-list))
 
 #         return render(request, 'verify.html', {'mobile': mobile})
 #     except:
-#         return HttpResponseRedirect(reverse('register_view'))
+#         return HttpResponseRedirect(reverse('register'))
 
+# _____________________________________________________________________________________________________

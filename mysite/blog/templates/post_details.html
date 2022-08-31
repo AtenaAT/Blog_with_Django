@@ -1,21 +1,27 @@
 {% extends 'index.html' %}
 
 {% block body %}
+
+
+<!-------------------------------------------------------------------------------------------------------------------------------->
+
     
         <div>
-            <h3>This is our post number {{post.id}}:</h3>
-            <h1>{% block title %}
-                 {{ post.title }} 
-                 {% endblock title %}
+            <h3> post number: {{post.id}}</h3>
+            <h1>
+                {% block title %}
+                    {{ post.title }}
+                {% endblock title %}
             </h1>
+<!-------------------------------------------- post ba detail------------------------------------------>
 
-            <p >{{ post.author }} | {{ post.created }}</p>
+            <p >{{ post.author.first_name }} | {{ post.created }}</p>
             <img src="{{ post.image.url }}" width="300" height="300">
-            <p >{{post.descripton}}</p>
+            <p >{{post.description}}</p>
         </div>
 
         
-        <!-- comments -->
+<!-------------------------------------- comments----------------------------------------------------->
           
                 <h3>{{ comments.count }} comments</h3>
                 <h3>{{ likes.count }} Likes</h3>
@@ -23,7 +29,7 @@
                 {% for comment in comments %}
                 
                 <p>
-                    {{ comment.author }}
+                    {{ comment.post.author.first_name }}
                     <span >
                     {{ comment.created }}
                     </span>
@@ -33,56 +39,40 @@
             
                 {% endfor %}
 
+<!-------------------------------------------------like--------------------------------------------->
 
 
+<!--    < form action="" method="POST" >-->
 
-                <!-- like -->
+<!--                    {% csrf_token %}-->
+<!--                    <input type="hidden" name="post\_id" value="{{ post.id }}">-->
+<!--                    {% if author not in post.likes.all %}-->
 
+<!--                        <button class="btn btn-success" id="like" type="submit">Like</button>-->
 
-                <form action="{% url 'like_post'   %}" method="POST" >
+<!--                    {% else %}-->
 
-                   
-                    {% csrf_token %}
-                    <input type="hidden" name="post\_id" value="{{ post.id }}">
-                    {% if author not in post.likes.all %}
+<!--                        <button class="btn btn-danger" id="unlike" type="submit">UnLike</button>-->
 
-                    <button class="btn btn-success" id="like" type="submit">Like</button>
-
-                    {% else %}
-
-                    <button class="btn btn-danger" id="unlike" type="submit">UnLike</button>
-
-                    {% endif %}
-
-                    </form>
-
-
-
-
-
-
-
-
-        
+<!--                    {% endif %}-->
+<!--                </form>-->
+<!-------------------------------------- comment -------------------------------------------------------->
                 {% if user.is_authenticated %}
-                    <h3>Leave a comment</h3>
-                    <form method="post">
-                        {{ comment_form.as_p }}
-                        {% csrf_token %}
-                    <button type="submit" >Submit</button>
-                    </form>
+
+                        <p>{{ comments.user}}  نظر بدهید :</p>
+
+                        <form method="POST">
+                            {{comment_form.as_p }}
+                            {% csrf_token %}
+                            <button type="submit" >Submit</button>
+                        </form>
+
                 {% else %}
                    <p><a href="{% url 'login'   %}" >login</a> : برای کامنت گذاشتن ابتدا وارد شوید</p>
-                {% endif %}
 
-                
+            {% endif %}
+{% for comment in comments %}
+{{ comment.user }}
+{% endfor %}
 
-
-
-
-
-
-
-               
-        
 {% endblock body %}

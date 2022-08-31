@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+
+{% block body %}
+
+
+<h2>شما از حساب خارج شدید</h2>
+<div>
+    <small>
+        <a href="{% url 'login' %}">Login again</a>
+        <p><a href="{% url 'posts_list'   %}" >posts</a></p>
+    </small>
+</div>
+
+{% endblock body %}

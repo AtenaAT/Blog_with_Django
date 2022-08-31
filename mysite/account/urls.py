@@ -1,11 +1,13 @@
 from django.urls import path
 from . import views
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
-    # path('', views.register_view, name='register_view'),
     # path('verify/', views.verify, name='verify'),
-    path('dashboard/', views.dashboard, name='dashboard'),
-    path('login/', views.mobile_login, name='mobile_login'),
+    path('register/', views.custom_register, name='register'),
+    path('login/', views.custom_login, name='login'),
+    path('logout/', views.custom_logout, name='logout'),
+    path("profile/", views.profile_detail, name='profile_detail'),
 
 ]
+urlpatterns += staticfiles_urlpatterns()

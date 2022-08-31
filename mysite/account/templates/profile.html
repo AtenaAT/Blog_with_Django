@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+
+{% block body %}
+
+
+    <P> {{ profile.user }} :  نام کاربری</P>
+    <hr>
+    <P> <img src=" {{ profile.image.url }}" width="300" height="300"> : تصویر</P>
+    <hr>
+    <P> {{ profile.first_name }} :  نام</P>
+    <hr>
+    <P> {{ profile.last_name }} :  نام خانوادگی</P>
+    <hr>
+    <P> {{ profile.age }} : سن</P>
+    <hr>
+    <P> {{ profile.gender }} :  جنسیت</P>
+    <hr>
+    <P> {{ profile.address }} : آدرس</P>
+    
+
+{% endblock  %}

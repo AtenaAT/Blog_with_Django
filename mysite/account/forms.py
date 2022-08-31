@@ -1,11 +1,19 @@
-# tanzime form registration ba vared kardan shomare mobile:
-#---------------------------------------------------------------
 from django import forms
-from . import models
-from blog.models import Profile
+from .models import CustomUser
 
-class RegisterForm(forms.ModelForm):
+
+class loginFrom(forms.ModelForm):
     class Meta:
-        model = models.CustomUser
-        
-        fields = ['mobile', ]
+        model = CustomUser
+        fields = ("mobile",)
+
+
+class RegisterFrom(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('mobile', "image", "first_name", "last_name", "age", "gender", "address")
+
+    # def save(self, commit=True):
+    #     user = super().save(commit=commit)
+    #     CustomUser.objects.create()
+    #     return user

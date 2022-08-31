@@ -1,12 +1,8 @@
-# tanzimate marbud b kar ba kave negar + tabe ijade adade random baraye verify kardan:
-# -----------------------------------------------------------------------------------------
 from kavenegar import *
 from random import randint
 
 
 def send_otp(mobile, otp):
-
-    # shomare mobile bayad array bashe:
     mobile = [mobile, ]
 
     try:

@@ -1,5 +1,3 @@
-#  tanzimate backend baraye authentucation + tarif dar setting.py
-# ----------------------------------------------------------------------
 from django.contrib.auth.backends import ModelBackend
 from .models import CustomUser
 

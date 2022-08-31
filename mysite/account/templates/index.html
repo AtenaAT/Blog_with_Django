@@ -1,0 +1,41 @@
+<!doctype html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>
+                {% block title %} {% endblock %} | blog
+            </title>
+        </head>
+        <body>
+            
+            
+        
+            <div>
+
+                 <p><a href="{% url 'posts_list'   %}" >POSTS</a> </p>
+
+                {% if user.is_authenticated %}
+
+
+                     <p>خوش آمدید! <a href="{% url 'profile_detail'   %}" > {{ user.first_name }}</a>| <a href="{% url 'logout'   %}" >logout</a></p>
+                     <hr>
+
+
+
+
+                 {% else %}
+                  <p><a href="{% url 'register'   %}" > ثبت نام</a> </p><p><a href="{% url 'login'   %}" >ورود</a></p>
+                     <hr>
+                 {% endif %}
+
+        <hr><hr><hr>
+                {% block body %}
+        
+                {% endblock body %}
+            </div>
+        
+
+        </body>
+    </html>

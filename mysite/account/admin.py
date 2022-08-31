@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import CustomUser
+from .models import CustomUser as User
 
-#---- namayesh user custom dar panel admin:
-admin.site.register(CustomUser)
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('mobile', 'age', 'first_name', 'last_name', 'gender')
+    list_filter = ('age', 'gender')
+    search_fields = ('mobile',)

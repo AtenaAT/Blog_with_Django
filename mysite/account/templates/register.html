@@ -1,0 +1,35 @@
+<!doctype html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>
+                register
+            </title>
+        </head>
+        <body>
+
+
+    			{% block body %}
+				<h2>register</h2>
+				<hr>
+				{% if user.is_authenticated %}
+				<p><a href="{% url 'posts_list'   %}" >POSTS</a> </p>
+				<p>لاگین هستید   <a href="{% url 'logout'   %}" >logout</a></p>
+				{% else %}
+					<div>
+    					<form method="POST">
+    						{% csrf_token %}
+    						{{ form.as_p}}
+
+            				<hr>
+    						<button  type="submit">register</button>
+    					</form>
+						<p>   | اگر اکانت دارید    | <a href="{% url 'login'   %}"> وارد شوید |   </a></p>
+					</div>
+				{% endif %}
+				{% endblock body %}
+
+		</body>
+    </html>
